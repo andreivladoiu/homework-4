@@ -1,5 +1,8 @@
 package ro.sci.shop;
 
+/**
+ * Class used for the vegetable products of the store
+ */
 public class VegetableProduct extends Product{
     private String listOfVitamins;
 

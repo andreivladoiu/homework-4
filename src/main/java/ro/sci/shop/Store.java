@@ -3,6 +3,9 @@ package ro.sci.shop;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used for the lists of products/orders and related methods
+ */
 public class Store {
     private List<AnimalProduct> listOfAnimalProducts = new ArrayList<>();
     private List<VegetableProduct> listOfVegetableProducts = new ArrayList<>();
@@ -20,34 +23,51 @@ public class Store {
         return listOfOrders;
     }
 
-    public void addAnimProductToStock(AnimalProduct product) {
-        boolean exists = false;
-
-        for(AnimalProduct animalProduct : listOfAnimalProducts) {
-            if(product.getId() == animalProduct.getId()) {
-                animalProduct.addQuantity(product.getQuantity());
-                exists = true;
+    /**
+     * In case of existing id i, increments stock with the quantity q and does not create a new product
+     */
+    public boolean increaseStockIfProdExists(int i, double q) {
+        boolean onStock = false;
+        for (AnimalProduct p :
+                listOfAnimalProducts) {
+            if (p.getId() == i) {
+                onStock = true;
+                System.out.println("The product with id " + i + " already exists. We will increment quantity with value " + q);
+                p.addQuantity(q);
+                break;
             }
         }
-        if(!exists) {
-            listOfAnimalProducts.add(product);
+        if (onStock == false) {
+            for (VegetableProduct p :
+                    listOfVegetableProducts) {
+                if (p.getId() == i) {
+                    onStock = true;
+                    System.out.println("The product with id " + i + " already exists. We will increment quantity with value " + q);
+                    p.addQuantity(q);
+                    break;
+                }
+            }
         }
+        return onStock;
     }
 
+    /**
+     * Adds new animal product to the list
+     */
+    public void addAnimProductToStock(AnimalProduct product) {
+        listOfAnimalProducts.add(product);
+    }
+
+    /**
+     * Adds new vegetable product to the list
+     */
     public void addVegProductToStock(VegetableProduct product) {
-        boolean exists = false;
-
-        for(VegetableProduct vegetableProduct : listOfVegetableProducts) {
-            if(product.getId() == vegetableProduct.getId()) {
-                vegetableProduct.addQuantity(product.getQuantity());
-                exists = true;
-           }
-        }
-        if(!exists) {
-            listOfVegetableProducts.add(product);
-        }
+        listOfVegetableProducts.add(product);
     }
 
+    /**
+     * Displays a table of the animal products in stock
+     */
     public void displayAnimalTable() {
         System.out.println("\nID\tName\tQuantity\tPrice\tWeight\tValidity date\tStorage temperature");
         for (AnimalProduct p :
@@ -57,8 +77,12 @@ public class Store {
         }
     }
 
+
+    /**
+     * Displays a table of the vegetable products in stock
+     */
     public void displayVegetableTable() {
-        System.out.println("\nID\tName\tQuantity\tPrice\tWeight\tValidity date\tList of vitamins");
+        System.out.println("\n\nID\tName\tQuantity\tPrice\tWeight\tValidity date\tList of vitamins");
         for (VegetableProduct p :
                 listOfVegetableProducts) {
             displayProdProperties(p);
@@ -66,6 +90,9 @@ public class Store {
         }
     }
 
+    /**
+     * Checks if the requested product is on stock in the requested quantity and if it is, decrements the stock with the quantity
+     */
     public boolean validateOrder(int i, double q) {
         boolean onStock = false;
         for (AnimalProduct p :
@@ -93,12 +120,16 @@ public class Store {
         return onStock;
     }
 
-
+    /**
+     * Adds orders to the list
+     */
     public void addOrderToList(Order order) {
         listOfOrders.add(order);
     }
 
-
+    /**
+     * Displays a table of the orders from a certain date
+     */
     public void displayOrderList(String date) {
         System.out.println("Order date\tID\tQuantity");
         for (Order o :
@@ -114,7 +145,9 @@ public class Store {
         }
     }
 
-
+    /**
+     * Displays the table of the animal/ vegetable products without the last field (storageTemperature/ listOfVitamins)
+     */
     public void displayProdProperties(Product product) {
         System.out.print("\n");
         System.out.print(product.getId());
@@ -129,27 +162,5 @@ public class Store {
         System.out.print("\t");
         System.out.print(product.getValidityDate());
         System.out.print("\t");
-    }
-
-    public boolean productAnimalExist(int id) {
-        boolean exists = false;
-        for(AnimalProduct animalProduct : listOfAnimalProducts) {
-            if(id == animalProduct.getId()) {
-                exists = true;
-            }
-        }
-
-        return exists;
-    }
-
-    public boolean productVegetableExist(int id) {
-        boolean exists = false;
-        for(VegetableProduct vegetableProduct : listOfVegetableProducts) {
-            if(id == vegetableProduct.getId()) {
-                exists = true;
-            }
-        }
-
-        return exists;
     }
 }

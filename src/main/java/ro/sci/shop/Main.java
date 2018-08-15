@@ -2,13 +2,16 @@ package ro.sci.shop;
 
 import java.util.Scanner;
 
+/**
+ * Program which simulates the operations at a store
+ */
 
 public class Main {
 
     public static void main(String[] args) {
 
         Store store = new Store();
-        initialStoc(store);
+        initialStock(store);
 
         boolean doAgain = true;
 
@@ -26,34 +29,31 @@ public class Main {
                 case 1:
                     System.out.println("Input product ID:");
                     int id = keyboard.nextInt();
-                    keyboard.nextLine();
 
                     System.out.println("Input quantity:");
                     Double quantity = keyboard.nextDouble();
 
-                    if (store.productAnimalExist(id)) {
-                        store.addAnimProductToStock(new AnimalProduct(id, null, quantity, 0.0, 0.0, null, 0.0));
-                        System.out.println("Product with id: " + id + " already exist. We will increment quantity with value " + quantity);
+                    if (store.increaseStockIfProdExists(id, quantity))
                         break;
-                    } else if(store.productVegetableExist(id)) {
-                        store.addVegProductToStock(new VegetableProduct(id, null, quantity, 0.0, 0.0, null, null));
-                        System.out.println("Product with id: " + id + " already exist. We will increment quantity with value " + quantity);
-                        break;
-                    }
 
+                    keyboard.nextLine();
                     System.out.println("Input product name:");
                     String name = keyboard.nextLine();
 
 
                     System.out.println("Input price:");
                     Double price = keyboard.nextDouble();
+
                     System.out.println("Input weight:");
                     Double weight = keyboard.nextDouble();
+
                     keyboard.nextLine();
                     System.out.println("Input validity date (yyyy-mm-dd):");
                     String validityDate = keyboard.nextLine();
+
                     System.out.println("Input product type (1 - animal; 2 - vegetable):");
                     int type = keyboard.nextInt();
+
                     if (type == 1) {
                         System.out.println("Input storage temperature:");
                         Double storageTemperature = keyboard.nextDouble();
@@ -71,6 +71,7 @@ public class Main {
                 case 2:
                     store.displayAnimalTable();
                     store.displayVegetableTable();
+                    System.out.println("\n");
                     System.out.println("Input product ID:");
                     int i = keyboard.nextInt();
                     System.out.println("Input quantity:");
@@ -101,7 +102,10 @@ public class Main {
         } while (doAgain);
     }
 
-    private static void initialStoc(Store store) {
+    /**
+     * Initialises the stock with the products mentioned in the project requirements
+     */
+    private static void initialStock(Store store) {
         AnimalProduct milk = new AnimalProduct(375, "milk", 30.0, 2.0, 1.0, "2018-08-20", 4.0);
         store.addAnimProductToStock(milk);
         AnimalProduct egg = new AnimalProduct(224, "egg", 100.0, 0.50, 0.050, "2018-08-18", 5.0);

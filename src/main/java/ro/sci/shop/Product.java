@@ -1,5 +1,9 @@
 package ro.sci.shop;
 
+/**
+ * Class used for the products of the store
+ */
+
 public class Product {
 
     private double price;
@@ -42,10 +46,16 @@ public class Product {
         return name;
     }
 
+    /**
+     * Decrements quantity of an existing product
+     */
     public void removeSoldQuantity(double quantity) {
         this.quantity = this.quantity - quantity;
     }
 
+    /**
+     * Increments quantity of an existing product
+     */
     public void addQuantity(double quantity) {
         this.quantity = this.quantity + quantity;
     }

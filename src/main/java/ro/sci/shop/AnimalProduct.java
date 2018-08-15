@@ -1,5 +1,8 @@
 package ro.sci.shop;
 
+/**
+ * Class used for the animal products of the store
+ */
 public class AnimalProduct extends Product {
     private double storageTemperature;
 

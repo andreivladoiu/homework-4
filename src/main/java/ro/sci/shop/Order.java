@@ -1,5 +1,8 @@
 package ro.sci.shop;
 
+/**
+ * Class used for the orders generated in case of sale
+ */
 public class Order {
     private String orderDate;
     private int id;
